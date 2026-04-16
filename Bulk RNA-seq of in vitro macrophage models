@@ -1,0 +1,49 @@
+# Package use
+```{r}
+library(edgeR)
+library(DESeq2)
+library(EnhancedVolcano)
+library(ggplot2)
+library(ggrepel)
+library(ggpubr)
+library(tidyr)
+library(clusterProfiler)
+library(org.Hs.eg.db)
+library(msigdbr)
+library(enrichplot)
+library(forcats)
+library(enrichplot)
+library(stringr)
+
+```
+# Load data
+```{r}
+GSE47189_PGE2vCTRL_72hr <- read.delim("D:/Human Bulk RNAseq Monocyte + PGE2/GSE47189/DEG table/GSE47189_PGE2vCTRL_72hr.tsv")
+```
+
+# Volcano Plot
+```{r}
+df <- GSE47189_PGE2vCTRL_72hr 
+
+p_vol <- EnhancedVolcano(df,
+    lab = df$Gene.symbol ,
+    x = 'logFC',
+    y = 'adj.P.Val',
+    title = 'GSE47189: PGE2 vs CTRL (72h)',
+    subtitle = 'Human Monocytes',
+    pCutoff = 0.05,
+    FCcutoff = 0.5,
+    pointSize = 3.0,
+    labSize = 5.0,
+    drawConnectors = TRUE,
+    legendPosition = 'right') +
+  theme(
+    panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank()
+  )
+
+ggsave("D:/Human Bulk RNAseq Monocyte + PGE2/GSE47189/Figures/Volcano_PGE2.png", 
+       plot = p_vol, width = 12, height = 12, dpi = 300)
+
+p_vol
+```
